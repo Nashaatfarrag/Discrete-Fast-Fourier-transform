@@ -24,13 +24,19 @@ complex<double> omega(int n , int power){
     z.imag() = y ;
     return z ; }
 
+complex<double> myMultiply(complex<double> a , complex<double> b){
+complex<double> z;
+    z.real() = a.real()*b.real() - a.imag()*b.imag();
+    z.imag() = a.real()*b.imag() + a.imag()*b.real();
+return z ;
+}
 complex<double> out (int n , int index , int start = 0 ){
 if(n == 2){
     if(index == 0) return xn[start +0] + xn[start +1];
     else   return xn[start + 0] - xn[start + 1] ; }
 else {
-    if(index >= n/2)   return out(n/2,index-n/2,start) - omega(n,index-n/2) * out(n/2,index-n/2,start + n/2);
-    else               return out(n/2,index , start) + out(n/2,index , start +n/2);}
+    if(index >= n/2)   return out(n/2,index-n/2,start) - myMultiply(omega(n,index-n/2) , out(n/2,index-n/2,start + n/2));
+    else               return out(n/2,index , start) + myMultiply(omega(n,index ) , out(n/2,index , start +n/2));}
 }
 
 //ifstream fin("mytext.txt");
