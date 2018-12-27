@@ -39,6 +39,27 @@ else {
     else               return out(n/2,index , start) + myMultiply(omega(n,index ) , out(n/2,index , start +n/2));}
 }
 
+
+vector<int> myJoin(vector<int> s , vector<int> e){
+vector<int> R;
+for(int i = 0 ; i < s.size();i++) R.push_back(s[i]);
+for(int i = 0 ; i < e.size();i++) R.push_back(e[i]);
+return R ;
+}
+
+vector<int> indexing (vector<int> v ){
+vector<int>even;
+vector<int>odd;
+if(v.size() == 2)
+    return v;
+else {
+for(int i = 0 ; i < v.size();i++){
+    if(i%2 == 0)     even.push_back(v[i]);
+    else          odd.push_back(v[i]);
+}
+return myJoin(indexing(even),indexing(odd));
+}
+}
 //ifstream fin("mytext.txt");
 int main()
 {
@@ -55,7 +76,8 @@ int main()
         cin>>temp;
         xn.push_back(temp);
     }
-    for(int i = 1 ; i < n/2 ; i++)  swap( xn[ i+ (n/2- 1)] , xn[i] );
+    xn = indexing(xn);
+    //for(int i = 1 ; i < n/2 ; i++)  swap( xn[ i+ (n/2- 1)] , xn[i] );
     //for(int i = 0 ; i < n ;i++)  cout<<xn[i]<<"\t";   puts(" ");
     puts(" ");
     puts("X(k)\tValue\t\tMag\t\tPhase");
@@ -64,6 +86,6 @@ int main()
             complex<double> y = out(n,i);
             cout<<"X["<<i<<"]"<<"\t";
             myprintf(y);
-            cout<<"   \t"<<abs(y)<<"\t\t"<<arg(y)*180/pi<<"\n";
+            cout<<"\t\t"<<abs(y)<<"\t\t"<<arg(y)*180/pi<<"\n";
     }    return 0;
 }
